@@ -1,4 +1,5 @@
 import os
+import paramiko
 
 class Server:
     
@@ -30,3 +31,15 @@ class Server:
             print("Check the server - Unsuccessfull ping response for ", self.server_ip)
             print(f.read())
             
+
+
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect(hostname='34.209.138.165', username='ubuntu', key_filename='/home/ubuntu/.ssh/messi.pem')
+
+stdin, stdout, stderr = ssh.exec_command('lsb_release -a')
+
+for line in stdout.read().splitlines():
+    print(line)
+
+ssh.close()
